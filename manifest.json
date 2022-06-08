@@ -1,0 +1,14 @@
+{
+    "name": "Leetcode Performance Tracker",
+    "version": "1.0.0",
+    "description": "Track leetcode performace",
+    "manifest_version": 3,
+    "author": "Venky",
+    "action":{
+        "default_popup": "front-end/HTML/index.html",
+        "default_title": "Timer"
+    },
+    "permissions": [
+        "tabs"
+    ] 
+}
