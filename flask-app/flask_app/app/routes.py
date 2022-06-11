@@ -2,6 +2,6 @@ from . import app
 
 
 @app.route("/")
-@app.route("/index")
-def index():
-    return "HW"
+@app.route("/health")
+def site_health():
+    return "I'm running"
