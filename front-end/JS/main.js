@@ -37,21 +37,35 @@ document.getElementById('pauseTimer').addEventListener('click', ()=>{
     clearInterval(int);
 });
 
-function getUrl() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        var activeTab = tabs[0];
-        alert(activeTab.url)
+function showServerResponse(response) {
+    alert(response.status);
+};
 
-    });
+
+async function getUrlandSendData(totalTime) {
+    var queryParams = {active: true, currentWindow: true};
+    chrome.tabs.query(
+        queryParams, 
+        function(tabs) {
+            var activeTab = tabs[0];
+            var currData = {
+                currURL: activeTab.url,
+                currTime: totalTime
+            }
+            chrome.runtime.sendMessage(
+                currData,
+                showServerResponse
+            )
+        }
+    );
 }
 
-function stopTimerAndSendData() {
+async function stopTimerAndSendData() {
     //stop timer
     clearInterval(int);
+    var totalTime = seconds + minutes*60 + hours*60*60;
     [milliseconds,seconds,minutes,hours] = [0,0,0,0];
     timerRef.innerHTML = '00 : 00 : 00';
-
-    // get the problem url
-    getUrl();
+    getUrlandSendData(totalTime);
 }
 document.getElementById("doneTimer").addEventListener("click", stopTimerAndSendData);
