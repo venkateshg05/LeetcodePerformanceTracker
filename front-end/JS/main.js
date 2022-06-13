@@ -3,7 +3,7 @@
 
 let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
-let int = null;
+let interval  = null;
 
 
 function displayTimer(){
@@ -28,21 +28,21 @@ function displayTimer(){
 }
 
 document.getElementById('startTimer').addEventListener('click', ()=>{
-    if(int!==null){
-        clearInterval(int);
+    if(interval !==null){
+        clearInterval(interval );
     }
-    int = setInterval(displayTimer,10);
+    interval  = setInterval(displayTimer,10);
 });
 
 document.getElementById('pauseTimer').addEventListener('click', ()=>{
-    clearInterval(int);
+    clearInterval(interval );
 });
 
 function showServerResponse(response) {
     alert(response.status);
 };
 
-let serverhost = 'http://127.0.0.1:5000';
+const serverhost = 'http://127.0.0.1:5000';
 
 async function postData(url = '', data = {}) {
     const response = await fetch(url, {
@@ -57,8 +57,8 @@ async function postData(url = '', data = {}) {
   }
 
 function sendData(url, totalTime) {
-    var requestURL = serverhost + "/save"
-    var currData = {
+    let requestURL = serverhost + "/save"
+    let currData = {
         currURL: url,
         currTime: totalTime
     }
@@ -67,16 +67,16 @@ function sendData(url, totalTime) {
 }
 
 async function getUrl() {
-    var queryParams = {active: true, currentWindow: true};
-    var tabs = await chrome.tabs.query(queryParams);
-    var activeTab = tabs[0];
+    let queryParams = {active: true, currentWindow: true};
+    let tabs = await chrome.tabs.query(queryParams);
+    let activeTab = tabs[0];
     return activeTab.url 
 }
 
 async function stopTimerAndSendData() {
     //stop timer
-    clearInterval(int);
-    var totalTime = seconds + minutes*60 + hours*60*60;
+    clearInterval(interval );
+    let totalTime = seconds + minutes*60 + hours*60*60;
     [milliseconds,seconds,minutes,hours] = [0,0,0,0];
     timerRef.innerHTML = '00 : 00 : 00';
     let url = await getUrl();
