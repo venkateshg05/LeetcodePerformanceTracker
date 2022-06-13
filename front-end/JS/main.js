@@ -56,22 +56,21 @@ async function postData(url = '', data = {}) {
     return response.json();
   }
 
+function sendData(url, totalTime) {
+    var requestURL = serverhost + "/save"
+    var currData = {
+        currURL: url,
+        currTime: totalTime
+    }
+    postData(requestURL, currData)
+    .then(data => showServerResponse(data));
+}
 
-async function getUrlandSendData(totalTime) {
+async function getUrl() {
     var queryParams = {active: true, currentWindow: true};
-    chrome.tabs.query(
-        queryParams, 
-        function(tabs) {
-            var activeTab = tabs[0];
-            var requestURL = serverhost + "/save"
-            var currData = {
-                currURL: activeTab.url,
-                currTime: totalTime
-            }
-            postData(requestURL, currData)
-            .then(data => showServerResponse(data));
-        }
-    );
+    var tabs = await chrome.tabs.query(queryParams);
+    var activeTab = tabs[0];
+    return activeTab.url 
 }
 
 async function stopTimerAndSendData() {
@@ -80,6 +79,7 @@ async function stopTimerAndSendData() {
     var totalTime = seconds + minutes*60 + hours*60*60;
     [milliseconds,seconds,minutes,hours] = [0,0,0,0];
     timerRef.innerHTML = '00 : 00 : 00';
-    getUrlandSendData(totalTime);
+    let url = await getUrl();
+    sendData(url, totalTime);
 }
 document.getElementById("doneTimer").addEventListener("click", stopTimerAndSendData);
