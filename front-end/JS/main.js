@@ -5,6 +5,7 @@ let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
 let int = null;
 
+
 function displayTimer(){
     milliseconds+=10;
     if(milliseconds == 1000){
@@ -41,6 +42,20 @@ function showServerResponse(response) {
     alert(response.status);
 };
 
+let serverhost = 'http://127.0.0.1:5000';
+
+async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+      method: 'POST', 
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+
 
 async function getUrlandSendData(totalTime) {
     var queryParams = {active: true, currentWindow: true};
@@ -48,14 +63,13 @@ async function getUrlandSendData(totalTime) {
         queryParams, 
         function(tabs) {
             var activeTab = tabs[0];
+            var requestURL = serverhost + "/save"
             var currData = {
                 currURL: activeTab.url,
                 currTime: totalTime
             }
-            chrome.runtime.sendMessage(
-                currData,
-                showServerResponse
-            )
+            postData(requestURL, currData)
+            .then(data => showServerResponse(data));
         }
     );
 }

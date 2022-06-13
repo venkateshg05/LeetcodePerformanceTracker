@@ -8,12 +8,8 @@
         "default_popup": "front-end/HTML/index.html",
         "default_title": "Timer"
     },
-    "background":{
-        "service_worker": "front-end/JS/background.js"
-    },
     "host_permissions": ["http://127.0.0.1:5000/*"],
     "permissions": [
-        "background",
         "tabs"
     ] 
 }
