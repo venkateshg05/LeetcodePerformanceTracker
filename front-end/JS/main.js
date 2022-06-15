@@ -3,7 +3,8 @@
 
 let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
-let int = null;
+let interval  = null;
+
 
 function displayTimer(){
     milliseconds+=10;
@@ -27,31 +28,58 @@ function displayTimer(){
 }
 
 document.getElementById('startTimer').addEventListener('click', ()=>{
-    if(int!==null){
-        clearInterval(int);
+    if(interval !==null){
+        clearInterval(interval );
     }
-    int = setInterval(displayTimer,10);
+    interval  = setInterval(displayTimer,10);
 });
 
 document.getElementById('pauseTimer').addEventListener('click', ()=>{
-    clearInterval(int);
+    clearInterval(interval );
 });
 
-function getUrl() {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        var activeTab = tabs[0];
-        alert(activeTab.url)
+function showServerResponse(response) {
+    alert(response.status);
+};
 
+const serverhost = 'http://127.0.0.1:5000';
+
+async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+      method: 'POST', 
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
     });
+    return response.json();
+  }
+
+function sendData(url, totalTime) {
+    let requestURL = serverhost + "/save"
+    let currData = {
+        currURL: url,
+        currTime: totalTime
+    }
+    postData(requestURL, currData)
+    .then(data => showServerResponse(data));
 }
 
-function stopTimerAndSendData() {
+async function getUrl() {
+    let queryParams = {active: true, currentWindow: true};
+    let tabs = await chrome.tabs.query(queryParams);
+    let activeTab = tabs[0];
+    return activeTab.url 
+}
+
+async function stopTimerAndSendData() {
     //stop timer
-    clearInterval(int);
+    clearInterval(interval );
+    let totalTime = seconds + minutes*60 + hours*60*60;
     [milliseconds,seconds,minutes,hours] = [0,0,0,0];
     timerRef.innerHTML = '00 : 00 : 00';
-
-    // get the problem url
-    getUrl();
+    let url = await getUrl();
+    sendData(url, totalTime);
 }
 document.getElementById("doneTimer").addEventListener("click", stopTimerAndSendData);

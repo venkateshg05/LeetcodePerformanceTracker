@@ -8,6 +8,7 @@
         "default_popup": "front-end/HTML/index.html",
         "default_title": "Timer"
     },
+    "host_permissions": ["http://127.0.0.1:5000/*"],
     "permissions": [
         "tabs"
     ] 
