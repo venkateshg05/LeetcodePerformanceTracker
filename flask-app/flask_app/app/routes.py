@@ -3,6 +3,7 @@ from crypt import methods
 from flask import request
 from . import app
 from .models import Questions, db
+from . import database_helper
 
 
 @app.route("/")
@@ -15,11 +16,9 @@ def site_health():
 def save_data():
     problem_data = request.get_json()
     try:
-        print(f"url: {problem_data['currURL']}, time: {problem_data['currTime']}s")
         url = problem_data["currURL"]
-        question = Questions(url=url)
-        db.session.add(question)
-        db.session.commit()
+        data = {"url": url}
+        database_helper.add_data(Questions, **data)
         return {"status": "200"}
     except:
         return {"status": "400"}
@@ -27,9 +26,9 @@ def save_data():
 
 @app.route("/get", methods=["GET"])
 def get_data():
-    data = Questions.query.all()
+    data = database_helper.get_all_data(Questions)
     try:
-        print(data)
-        return {"status": "200"}
+        data = [row.url for row in data]
+        return {"data": data, "status": "200"}
     except:
         return {"status": "400"}
