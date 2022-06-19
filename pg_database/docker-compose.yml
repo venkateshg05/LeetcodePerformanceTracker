@@ -14,5 +14,3 @@ services:
       - "5432:5432"
     volumes:
       - "$DATA_PATH:/var/lib/postgresql/data"
-    # volumes:
-    #    - /Users/venkateshgopalakrishnan/Side Projects/LeetcodePerformanceTracker/pg_database/data:/var/lib/postgresql/data
