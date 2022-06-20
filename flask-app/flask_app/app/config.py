@@ -1,10 +1,11 @@
-from .db_config_util import db_config
+import os
 
-user = db_config["POSTGRES_USER"]
-password = db_config["POSTGRES_PASSWORD"]
-host = db_config["POSTGRES_HOST"]
-port = db_config["POSTGRES_PORT"]
-database = db_config["POSTGRES_DB"]
+
+user = os.environ["POSTGRES_USER"]
+password = os.environ["POSTGRES_PASSWORD"]
+host = os.environ["POSTGRES_HOST"]
+port = os.environ["POSTGRES_PORT"]
+database = os.environ["POSTGRES_DB"]
 
 
 DATABASE_CONNECTION_URI = (
