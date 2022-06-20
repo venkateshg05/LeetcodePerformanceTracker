@@ -1,8 +1,6 @@
-from crypt import methods
-
 from flask import request
 from . import app
-from .models import Questions, db
+from .models import Questions
 from . import database_helper
 
 
