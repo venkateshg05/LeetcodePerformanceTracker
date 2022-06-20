@@ -2,5 +2,5 @@
 flask-app/README.rst
 .vscode
 flask-app/flask_app/app/db_config_util.py
-pg_database/data
-pg_database/.env
+pg_database/
+.env
