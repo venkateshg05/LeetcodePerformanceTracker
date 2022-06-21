@@ -1,6 +1,5 @@
 .DS_Store
 flask-app/README.rst
 .vscode
-flask-app/flask_app/app/db_config_util.py
 pg_database/
 .env
