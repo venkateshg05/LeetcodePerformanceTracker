@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from . import app
 from .models import Questions, UserSubmissions
-from . import database_helper
+from . import database_helper, db
 
 
 @app.route("/")
