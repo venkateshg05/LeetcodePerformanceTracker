@@ -1,3 +1,5 @@
 .DS_Store
 flask-app/README.rst
 .vscode
+pg_database/
+.env
