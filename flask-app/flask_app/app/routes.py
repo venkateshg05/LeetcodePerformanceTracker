@@ -1,3 +1,4 @@
+from re import U
 from flask import request, jsonify
 from . import app
 from .models import Questions, UserSubmissions
@@ -16,10 +17,7 @@ def save_submission_details():
     header_data = request.headers
     try:
         question_info = submission_data["question_info"]
-        instance = database_helper.get_instance(Questions, **question_info)
-        if instance is None:
-            database_helper.add_data(Questions, **question_info)
-            instance = database_helper.get_instance(Questions, **question_info)
+        instance = database_helper.get_instance_or_add(Questions, **question_info)
 
         user_submission_info = submission_data["user_submission_info"]
         user_submission_info["user_id"] = header_data["user_id"]
@@ -28,7 +26,6 @@ def save_submission_details():
 
         return jsonify({"status": "200"})
     except:
-        raise
         return jsonify({"status": "400"})
 
 
