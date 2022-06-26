@@ -1,5 +1,4 @@
 .DS_Store
-flask-app/README.rst
 .vscode
-pg_database/
+pg_database
 .env
