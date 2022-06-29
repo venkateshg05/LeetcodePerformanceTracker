@@ -14,6 +14,8 @@ def site_health():
 @app.route("/save", methods=["POST"])
 def save_submission_details():
     submission_data = request.get_json()
+    print(submission_data)
+    return jsonify({"status": 200})
     header_data = request.headers
     try:
         question_info = submission_data["question_info"]

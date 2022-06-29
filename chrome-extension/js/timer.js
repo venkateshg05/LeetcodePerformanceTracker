@@ -1,5 +1,4 @@
-
-//TODO check if it is on leetcode.com/<pattern> before enabling extension
+console.log("timer.js")
 
 let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
@@ -27,7 +26,7 @@ function displayTimer(){
     timerRef.innerHTML = ` ${h} : ${m} : ${s} `;
 }
 
-document.getElementById('startTimer').addEventListener('click', ()=>{
+document.getElementById('startTimer').addEventListener('click', async ()=>{
     if(interval !==null){
         clearInterval(interval );
     }
