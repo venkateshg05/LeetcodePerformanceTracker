@@ -17,7 +17,6 @@ class Questions(db.Model):
     __tablename__ = "questions"
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(500), nullable=False, unique=True)
-    difficulty_tag = db.Column(db.String(100))
 
     def __repr__(self) -> str:
         return f"id: {self.id}; url: {self.url}"
