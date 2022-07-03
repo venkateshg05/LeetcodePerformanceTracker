@@ -31,7 +31,6 @@ class UserSubmissions(db.Model):
     submission_dt = db.Column(
         db.DateTime(timezone=True), server_default=utcnow(), nullable=False
     )
-    # submission_dt = db.Column(db.String(500), nullable=False)
     submission_status = db.Column(db.String(100))
 
     def __repr__(self) -> str:
