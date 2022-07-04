@@ -31,6 +31,7 @@ class UserSubmissions(db.Model):
         db.DateTime(timezone=True), server_default=utcnow(), nullable=False
     )
     submission_status = db.Column(db.String(100))
+    time_taken = db.Column(db.Integer, nullable=False)
 
     def __repr__(self) -> str:
         return f"{self.user_id}, {self.question_id}, {self.submission_dt}"
