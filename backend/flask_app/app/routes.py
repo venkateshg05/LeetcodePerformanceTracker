@@ -14,7 +14,6 @@ def site_health():
 @app.route("/save", methods=["POST"])
 def save_submission_details():
     submission_data = request.get_json()
-    return jsonify({"status": 200})
     header_data = request.headers
     try:
         question_info = submission_data["question_info"]
@@ -36,7 +35,7 @@ def get_submission_details():
     users = database_helper.get_all_data(UserSubmissions)
     try:
         questions = [row.url for row in questions]
-        users = [(row.user_id, row.submission_dt) for row in users]
+        users = [(row.user_id, row.submission_dt, row.time_taken) for row in users]
         return jsonify({"questions": questions, "users": users, "status": "200"})
     except:
         return jsonify({"status": "400"})
