@@ -1,5 +1,6 @@
 from re import U
-from flask import request, jsonify
+from turtle import title
+from flask import request, jsonify, render_template
 from . import app
 from .models import Questions, UserSubmissions
 from . import database_helper, db
@@ -31,11 +32,10 @@ def save_submission_details():
 
 @app.route("/get", methods=["GET"])
 def get_submission_details():
-    questions = database_helper.get_all_data(Questions)
-    users = database_helper.get_all_data(UserSubmissions)
-    try:
-        questions = [row.url for row in questions]
-        users = [(row.user_id, row.submission_dt, row.time_taken) for row in users]
-        return jsonify({"questions": questions, "users": users, "status": "200"})
-    except:
-        return jsonify({"status": "400"})
+    user_id = "def12334hh"
+    data = (
+        db.session.query(UserSubmissions, Questions)
+        .join(Questions)
+        .filter(UserSubmissions.user_id == user_id)
+    )
+    return render_template("base.html", title="Home", data=data, user_id=user_id)
