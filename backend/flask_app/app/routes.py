@@ -38,4 +38,4 @@ def get_submission_details():
         .join(Questions)
         .filter(UserSubmissions.user_id == user_id)
     )
-    return render_template("base.html", title="Home", data=data, user_id=user_id)
+    return render_template("home.html", title="Home", data=data, user_id=user_id)
