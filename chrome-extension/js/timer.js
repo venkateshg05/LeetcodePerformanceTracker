@@ -48,7 +48,8 @@ async function postData(url = '', data = {}) {
       method: 'POST', 
       mode: 'cors',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'user_id' : 'def12334hh'
       },
       body: JSON.stringify(data)
     });
@@ -57,9 +58,17 @@ async function postData(url = '', data = {}) {
 
 function sendData(url, totalTime) {
     let requestURL = serverhost + "/save"
+    let questionInfo = {
+        url : url
+    }
+    let submissionInfo = {
+        time_taken : totalTime,
+        submission_dt : new Date().toISOString(),
+        submission_status : "Success"
+    }
     let currData = {
-        currURL: url,
-        currTime: totalTime
+        question_info : questionInfo,
+        user_submission_info: submissionInfo
     }
     postData(requestURL, currData)
     .then(data => showServerResponse(data));

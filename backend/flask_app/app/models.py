@@ -17,10 +17,6 @@ class Questions(db.Model):
     __tablename__ = "questions"
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(500), nullable=False, unique=True)
-    difficulty_tag = db.Column(db.String(100))
-
-    def __repr__(self) -> str:
-        return f"id: {self.id}; url: {self.url}"
 
 
 class UserSubmissions(db.Model):
@@ -32,6 +28,4 @@ class UserSubmissions(db.Model):
         db.DateTime(timezone=True), server_default=utcnow(), nullable=False
     )
     submission_status = db.Column(db.String(100))
-
-    def __repr__(self) -> str:
-        return f"{self.user_id}, {self.question_id}, {self.submission_dt}"
+    time_taken = db.Column(db.Integer, nullable=False)
