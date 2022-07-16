@@ -16,3 +16,7 @@ document.getElementById('openTimer').addEventListener('click', async ()=>{
         files: ["chrome-extension/js/contentScript.js"]
       }); 
 });
+
+document.getElementById('login').addEventListener('click', ()=>{
+    chrome.tabs.create({active: true, url: "http://127.0.0.1:5000/login"});
+});
