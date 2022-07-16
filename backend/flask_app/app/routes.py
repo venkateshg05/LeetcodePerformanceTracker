@@ -1,5 +1,3 @@
-from re import U
-from turtle import title
 from flask import request, jsonify, render_template
 from . import app
 from .models import Questions, UserSubmissions
