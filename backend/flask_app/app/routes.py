@@ -37,3 +37,9 @@ def get_submission_details():
         .filter(UserSubmissions.user_id == user_id)
     )
     return render_template("home.html", title="Home", data=data, user_id=user_id)
+
+
+@app.route("/login", methods=["GET"])
+def login():
+
+    return render_template("login.html", title="Login")
