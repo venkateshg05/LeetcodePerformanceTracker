@@ -1,7 +1,10 @@
-from flask import request, jsonify, render_template
+import re
+from flask import redirect, request, jsonify, render_template, url_for
 from . import app
 from .models import Questions, UserSubmissions
 from . import database_helper, db
+from . import config
+from .helpers import get_access_token, get_user_data
 
 
 @app.route("/")
@@ -30,16 +33,30 @@ def save_submission_details():
 
 @app.route("/get", methods=["GET"])
 def get_submission_details():
-    user_id = "def12334hh"
+    args = request.args
+    request_token = args.get("code")
+    if request_token is None:
+        return redirect(url_for("login"))
+
+    access_token = get_access_token(
+        config.GITHUB_CLIENT_ID, config.GITHUB_CLIENT_SECRET, request_token
+    )
+    user_data = get_user_data(access_token)
+    user_id = user_data["login"]
+    user_email = user_data["email"]
     data = (
         db.session.query(UserSubmissions, Questions)
         .join(Questions)
-        .filter(UserSubmissions.user_id == user_id)
+        .filter(UserSubmissions.user_id == "def12334hh")
     )
-    return render_template("home.html", title="Home", data=data, user_id=user_id)
+    return render_template(
+        "home.html", title="Home", data=data, user_id=user_id, user_email=user_email
+    )
 
 
 @app.route("/login", methods=["GET"])
 def login():
 
-    return render_template("login.html", title="Login")
+    return render_template(
+        "login.html", github_client_id=config.GITHUB_CLIENT_ID, title="Login"
+    )

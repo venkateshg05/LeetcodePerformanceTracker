@@ -7,30 +7,6 @@
 </head>
 
 <body>
-    <!--
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-    <!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-50">
-  <body class="h-full">
-  ```
--->
     <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
@@ -43,8 +19,9 @@
                     <div class="mt-6 grid grid-cols-1 gap-1">
 
                         <div>
-                            <a href="#"
-                                class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <a href="https://github.com/login/oauth/authorize?client_id={{ github_client_id }}""
+                                class=" w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md
+                                shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                 <span class="sr-only">Sign in with GitHub</span>
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                     <path fill-rule="evenodd"
