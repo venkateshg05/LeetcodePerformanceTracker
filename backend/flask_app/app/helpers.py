@@ -2,7 +2,7 @@ import requests
 
 
 def get_access_token(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, request_token):
-    url = f"https://github.com/login/oauth/access_token?client_id={GITHUB_CLIENT_ID}&client_secret={GITHUB_CLIENT_SECRET}&code={request_token}"
+    url = f"https://github.com/login/oauth/access_token?client_id={GITHUB_CLIENT_ID}&client_secret={GITHUB_CLIENT_SECRET}&code={request_token}&scope=user"
     headers = {"accept": "application/json"}
     res = requests.post(url, headers=headers)
     data = res.json()
