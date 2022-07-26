@@ -1,5 +1,4 @@
-import re
-from flask import redirect, request, jsonify, render_template, url_for
+from flask import redirect, request, jsonify, render_template, url_for, session
 from . import app
 from .models import Questions, UserSubmissions
 from . import database_helper, db
@@ -31,16 +30,14 @@ def save_submission_details():
         return jsonify({"status": "400"})
 
 
-@app.route("/get", methods=["GET"])
+@app.route("/home", methods=["GET"])
 def get_submission_details():
-    args = request.args
-    request_token = args.get("code")
-    if request_token is None:
+    ## TODO Move to decorator, use header (like in /save)
+    ## TODO save token to browser local
+    access_token = session.get("access_token")
+    if access_token is None:
         return redirect(url_for("login"))
 
-    access_token = get_access_token(
-        config.GITHUB_CLIENT_ID, config.GITHUB_CLIENT_SECRET, request_token
-    )
     user_data = get_user_data(access_token)
     user_id = user_data["login"]
     user_email = user_data["email"]
@@ -52,6 +49,18 @@ def get_submission_details():
     return render_template(
         "home.html", title="Home", data=data, user_id=user_id, user_email=user_email
     )
+
+
+@app.route("/github_redirect", methods=["GET"])
+def redirect_after_auth():
+    args = request.args
+    request_token = args.get("code")
+    access_token = get_access_token(
+        config.GITHUB_CLIENT_ID, config.GITHUB_CLIENT_SECRET, request_token
+    )
+    session["access_token"] = access_token
+    redirect_obj = redirect(url_for("get_submission_details"))
+    return redirect_obj
 
 
 @app.route("/login", methods=["GET"])
